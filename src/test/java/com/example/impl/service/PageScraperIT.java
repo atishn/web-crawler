@@ -5,6 +5,7 @@ import com.example.api.service.PageScraper;
 import com.example.exception.UrlConnectionException;
 import com.example.model.PageModel;
 import org.apache.commons.collections4.CollectionUtils;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -68,7 +69,7 @@ public class PageScraperIT {
 
     @Test
     public void getPageDetailTestMidContentPage() throws Exception {
-        PageModel model = pageScraper.getPageDetails("http://www.wiprodigital.com");
+        PageModel model = pageScraper.getPageDetails("http://wiprodigital.com");
 
         assertNotNull(model);
 
@@ -85,6 +86,62 @@ public class PageScraperIT {
 
         assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
         assertTrue(model.getStaticContents().size() > 0);
+
+
+        model = pageScraper.getPageDetails("http://www.wiprodigital.com");
+
+        assertNotNull(model);
+
+        assertTrue(isNotEmpty(model.getTitle()));
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getExternalReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
+        assertTrue(model.getImages().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getExternalReferences()));
+        assertTrue(model.getExternalReferences().size() > 100);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
+        assertTrue(model.getStaticContents().size() > 0);
+
+        model = pageScraper.getPageDetails("www.wiprodigital.com");
+
+        assertNotNull(model);
+
+        assertTrue(isNotEmpty(model.getTitle()));
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getExternalReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
+        assertTrue(model.getImages().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getExternalReferences()));
+        assertTrue(model.getExternalReferences().size() > 100);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
+        assertTrue(model.getStaticContents().size() > 0);
+
+        model = pageScraper.getPageDetails("wiprodigital.com");
+
+        assertNotNull(model);
+
+        assertTrue(isNotEmpty(model.getTitle()));
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getExternalReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
+        assertTrue(model.getImages().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getExternalReferences()));
+        assertTrue(model.getExternalReferences().size() > 100);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
+        assertTrue(model.getStaticContents().size() > 0);
+
     }
 
 
@@ -97,7 +154,43 @@ public class PageScraperIT {
         assertTrue(isNotEmpty(model.getTitle()));
 
         assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
+        assertTrue(model.getImages().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getExternalReferences()));
         assertTrue(model.getExternalReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
+        assertTrue(model.getStaticContents().size() > 0);
+
+        pageScraper.getPageDetails("www.newsweek.com");
+
+        assertNotNull(model);
+
+        assertTrue(isNotEmpty(model.getTitle()));
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
+        assertTrue(model.getImages().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getExternalReferences()));
+        assertTrue(model.getExternalReferences().size() > 0);
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getStaticContents()));
+        assertTrue(model.getStaticContents().size() > 0);
+
+        pageScraper.getPageDetails("newsweek.com");
+
+        assertNotNull(model);
+
+        assertTrue(isNotEmpty(model.getTitle()));
+
+        assertTrue(CollectionUtils.isNotEmpty(model.getReferences()));
+        assertTrue(model.getReferences().size() > 0);
 
         assertTrue(CollectionUtils.isNotEmpty(model.getImages()));
         assertTrue(model.getImages().size() > 0);
@@ -116,10 +209,20 @@ public class PageScraperIT {
     }
 
     @Test
+    @Ignore
     public void getPageDetailsWithBadUrls() throws Exception {
         exception.expect(UrlConnectionException.class);
         pageScraper.getPageDetails("http://wiprxxxssDc----");
     }
+
+
+    @Test
+    @Ignore
+    public void getPageDetailsWithBadData() throws Exception {
+        exception.expect(UrlConnectionException.class);
+        pageScraper.getPageDetails("padding");
+    }
+
 
     @Test
     public void testWithoutScheme() throws Exception {

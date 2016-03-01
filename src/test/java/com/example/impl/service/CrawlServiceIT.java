@@ -14,9 +14,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.List;
-
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -45,8 +45,90 @@ public class CrawlServiceIT {
      * Test the CrawlService.
      */
     @Test
-    public void testTheCrawlWebUrl() throws Exception {
-        List<Sitemap> sitemapList = crawlService.crawlTheWebUrl("http://wiprodigital.com");
-        assertTrue(isNotEmpty(sitemapList));
+    public void testTheCrawlWebUrlWithAllSupportedProtocols() throws Exception {
+        Sitemap sitemap = crawlService.crawlTheWebUrl("www.atish.me");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 0);
+
+
+        sitemap = crawlService.crawlTheWebUrl("http://atish.me");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 0);
+
+        sitemap = crawlService.crawlTheWebUrl("http://www.atish.me");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 0);
+
+        sitemap = crawlService.crawlTheWebUrl("atish.me");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 0);
+    }
+
+    @Test
+    public void testTheCrawlWebMidContentUrl() throws Exception {
+        Sitemap sitemap = crawlService.crawlTheWebUrl("http://wiprodigital.com");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getUrl()));
+        assertTrue(sitemap.getUrl().size() > 100);
+
+        assertTrue(isNotEmpty(sitemap.getImages()));
+        assertTrue(sitemap.getImages().size() > 100);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 100);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 100);
+
+
+    }
+
+    @Test
+    public void testTheCrawltestWebMidPageUrl() throws Exception {
+        Sitemap sitemap = crawlService.crawlTheWebUrl("http://wiprodigital.com/blog/");
+        assertNotNull(sitemap);
+
+        assertTrue(isNotEmpty(sitemap.getUrl()));
+        assertTrue(sitemap.getUrl().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getImages()));
+        assertTrue(sitemap.getImages().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getStaticContents()));
+        assertTrue(sitemap.getStaticContents().size() > 0);
+
+        assertTrue(isNotEmpty(sitemap.getExternalReferences()));
+        assertTrue(sitemap.getExternalReferences().size() > 0);
+    }
+
+
+    @Test
+    public void testTheCrawltestBadCases() throws Exception {
+        Sitemap sitemap = crawlService.crawlTheWebUrl(null);
+        assertNull(sitemap);
+
+        sitemap = crawlService.crawlTheWebUrl("");
+        assertNull(sitemap);
     }
 }

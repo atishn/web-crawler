@@ -3,6 +3,7 @@ package com.example.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -16,19 +17,18 @@ public class Sitemap implements Serializable {
      */
     private static final long serialVersionUID = -7846773639244185780L;
 
+    private List<Location> url;
 
-    private String loc;
-
-    private String[] images;
+    private List<Location> images;
 
     /**
      * The Static contents.
      */
-    private String[] staticContents;
+    private List<Location> staticContents;
 
     /**
      * The External references.
      */
-    private String[] externalReferences;
+    private List<Location> externalReferences;
 
 }

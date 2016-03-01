@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-import static com.example.adapter.SitemapAdapter.adapt;
-import static com.google.common.collect.Lists.newArrayList;
+import static com.example.adapter.SitemapBuilder.build;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -38,24 +40,39 @@ public class CrawlServiceImpl implements CrawlService {
 
 
     @Override
-    public List<Sitemap> crawlTheWebUrl(String url) throws IOException{
+    public Sitemap crawlTheWebUrl(String url) throws IOException {
 
-        List<Sitemap> sitemaps = newArrayList();
-        crawlerDao.appendToQueue(url);
+        Sitemap sitemap = null;
 
-        while (crawlerDao.hasUrlsToVisit()) {
-            String urlToVisit = crawlerDao.getNextUrl();
-            if (crawlerDao.hasVisited(urlToVisit)) continue;
-            try {
-                PageModel pageDetail = pageScraper.getPageDetails(urlToVisit);
-                Sitemap sitemap = adapt(pageDetail);
-                sitemaps.add(sitemap);
-                crawlerDao.appendToQueue(pageDetail.getReferences());
-            } catch (UrlConnectionException ex) {
-                LOG.error("The given url cannot be fetched " + urlToVisit);
+        if (isNotBlank(url)) {
+            crawlerDao.appendToQueue(url);
+
+            Set<String> imageReferences = new CopyOnWriteArraySet<>();
+            Set<String> externalRefernces = new CopyOnWriteArraySet<>();
+            Set<String> staticContents = new CopyOnWriteArraySet<>();
+
+            while (crawlerDao.hasUrlsToVisit()) {
+                String urlToVisit = crawlerDao.getNextUrl();
+                if (crawlerDao.hasVisited(urlToVisit)) continue;
+                try {
+                    PageModel pageDetail = pageScraper.getPageDetails(urlToVisit);
+                    crawlerDao.appendToQueue(pageDetail.getReferences());
+                    if (isNotEmpty(pageDetail.getImages())) {
+                        imageReferences.addAll(pageDetail.getImages());
+                    }
+                    if (isNotEmpty(pageDetail.getStaticContents())) {
+                        staticContents.addAll(pageDetail.getStaticContents());
+                    }
+                    if (isNotEmpty(pageDetail.getExternalReferences())) {
+                        externalRefernces.addAll(pageDetail.getExternalReferences());
+                    }
+                } catch (UrlConnectionException ex) {
+                    LOG.error("The given url cannot be fetched " + urlToVisit);
+                }
+                crawlerDao.markAsVisited(urlToVisit);
             }
-            crawlerDao.markAsVisited(urlToVisit);
+            sitemap = build(crawlerDao.getVisitedUrls(), imageReferences, staticContents, externalRefernces);
         }
-        return sitemaps;
+        return sitemap;
     }
 }

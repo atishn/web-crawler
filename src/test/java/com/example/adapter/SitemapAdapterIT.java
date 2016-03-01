@@ -25,7 +25,7 @@ public class SitemapAdapterIT {
      * Test Sitemap Crawling.
      */
     @Test
-    public void testSiteMapAdapter() throws Exception {
-        assertNull(SitemapAdapter.adapt(null));
+    public void testSiteMapAdapterWithNullCheck() throws Exception {
+        assertNull(SitemapBuilder.build(null, null, null, null));
     }
 }

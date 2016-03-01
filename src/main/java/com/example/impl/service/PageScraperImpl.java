@@ -88,12 +88,12 @@ public class PageScraperImpl implements PageScraper {
 
                     for (Element ref : refs) {
                         String linkUrl = ref.attr("abs:href");
-                        if (startsWith(linkUrl, hostDomain)) {
-                            if (equalsIgnoreCase(rootUrl, linkUrl)) {
+                        if (startsWith(linkUrl.replace("www.", ""), hostDomain.replace("www.", ""))) {
+                            if (equalsIgnoreCase(rootUrl, linkUrl) || startsWith(linkUrl, rootUrl + "#")) {
                                 continue;
                             } else {
                                 String path = new URI(linkUrl).getPath();
-                                if (StringUtils.equals(path, "/") || startsWith(path, "#")) {
+                                if (StringUtils.equals(path, "/") || startsWith(path, "/#")) {
                                     continue;
                                 }
                                 references.add(linkUrl);
