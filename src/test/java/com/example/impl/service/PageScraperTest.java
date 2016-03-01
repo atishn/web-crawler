@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 @ActiveProfiles("integration")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class PageScraperIT {
+public class PageScraperTest {
 
     /**
      * Expected exception.
@@ -47,6 +47,11 @@ public class PageScraperIT {
     private PageScraper pageScraper;
 
 
+    /**
+     * Gets page detail test simple page.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void getPageDetailTestSimplePage() throws Exception {
         PageModel model = pageScraper.getPageDetails("http://www.atish.me");
@@ -67,6 +72,11 @@ public class PageScraperIT {
     }
 
 
+    /**
+     * Gets page detail test mid content page.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void getPageDetailTestMidContentPage() throws Exception {
         PageModel model = pageScraper.getPageDetails("http://wiprodigital.com");
@@ -145,6 +155,11 @@ public class PageScraperIT {
     }
 
 
+    /**
+     * Gets page detail test large content page.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void getPageDetailTestLargeContentPage() throws Exception {
         PageModel model = pageScraper.getPageDetails("http://www.newsweek.com");
@@ -202,12 +217,22 @@ public class PageScraperIT {
         assertTrue(model.getStaticContents().size() > 0);
     }
 
+    /**
+     * Gets page detail test with null.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void getPageDetailTestWithNull() throws Exception {
         assertNull(pageScraper.getPageDetails(null));
         assertNull(pageScraper.getPageDetails(""));
     }
 
+    /**
+     * Gets page details with bad urls.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @Ignore
     public void getPageDetailsWithBadUrls() throws Exception {
@@ -216,6 +241,11 @@ public class PageScraperIT {
     }
 
 
+    /**
+     * Gets page details with bad data.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @Ignore
     public void getPageDetailsWithBadData() throws Exception {
@@ -224,12 +254,22 @@ public class PageScraperIT {
     }
 
 
+    /**
+     * Test without scheme.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testWithoutScheme() throws Exception {
         assertNotNull(pageScraper.getPageDetails("www.newsweek.com"));
         assertNotNull(pageScraper.getPageDetails("newsweek.com"));
     }
 
+    /**
+     * Test random inside page.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testRandomInsidePage() throws Exception {
         assertNotNull(pageScraper.getPageDetails("http://wiprodigital.com/tag/start-ups/"));

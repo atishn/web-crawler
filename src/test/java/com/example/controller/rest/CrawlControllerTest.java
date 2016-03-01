@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ActiveProfiles("integration")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CrawlControllerIT {
+public class CrawlControllerTest {
     /**
      * Web application Context for Unit Test
      */
@@ -58,7 +58,7 @@ public class CrawlControllerIT {
     public void testTheCrawlWebUrlWithSimpleWebsite() throws Exception {
 
         UrlRequest request = new UrlRequest();
-        request.setUrl("www.newsweek.com");
+        request.setUrl("www.wiprodigital.com");
 
         Gson gson = new Gson();
         String json = gson.toJson(request);
@@ -67,6 +67,6 @@ public class CrawlControllerIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("www.newsweek.com")));
+                .andExpect(content().string(containsString("wiprodigital.com")));
     }
 }

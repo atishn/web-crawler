@@ -30,11 +30,9 @@ For REST Based clients.
 
 ## Steps and Scripts for Continuous Delivery(Jenkins) Pipeline.
  1. Code Compile. `mvn clean compile`
- 2. Run CheckStyle `mvn clean checkstyle:checkstyle`
- 3. Run FindBugs `mvn clean compile findbugs:check`
- 4. Run Unit Test `mvn clean test`
- 5. Run Integration Test `mvn clean verify`
- 6. Make Build `mvn clean install`
+ 2. Run Unit Test `mvn clean test`
+ 3. Run Integration Test `mvn clean verify`
+ 4. Make Build `mvn clean install`
 
 
 ## Future Improvements.

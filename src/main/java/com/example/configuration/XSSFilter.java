@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 @Component
 public class XSSFilter extends GenericFilterBean {
     @Override
-    public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse,
-                         final FilterChain filterChain) throws IOException, ServletException {
-        assert servletRequest instanceof HttpServletRequest;
-        filterChain.doFilter(
-                new XSSSafeHttpServletRequestWrapper((HttpServletRequest) servletRequest),
-                servletResponse);
+    public void doFilter(final ServletRequest req, final ServletResponse resp,
+                         final FilterChain chain) throws IOException, ServletException {
+        assert req instanceof HttpServletRequest;
+        chain.doFilter(
+                new XSSSafeHttpServletRequestWrapper((HttpServletRequest) req),
+                resp);
     }
 
     /**
@@ -36,10 +36,11 @@ public class XSSFilter extends GenericFilterBean {
     private static class XSSSafeHttpServletRequestWrapper extends HttpServletRequestWrapper {
         /**
          * Constructor to match super class.
-         * @param request request to be wrapped.
+         *
+         * @param req req to be wrapped.
          */
-        public XSSSafeHttpServletRequestWrapper(final HttpServletRequest request) {
-            super(request);
+        public XSSSafeHttpServletRequestWrapper(final HttpServletRequest req) {
+            super(req);
         }
 
         @Override

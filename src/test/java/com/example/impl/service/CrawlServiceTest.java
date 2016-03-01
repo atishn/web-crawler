@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 @ActiveProfiles("integration")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CrawlServiceIT {
+public class CrawlServiceTest {
 
     /**
      * Expected exception.
@@ -43,6 +43,7 @@ public class CrawlServiceIT {
 
     /**
      * Test the CrawlService.
+     * @throws Exception the exception
      */
     @Test
     public void testTheCrawlWebUrlWithAllSupportedProtocols() throws Exception {
@@ -84,26 +85,36 @@ public class CrawlServiceIT {
         assertTrue(sitemap.getExternalReferences().size() > 0);
     }
 
+    /**
+     * Test the crawl web mid content url.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testTheCrawlWebMidContentUrl() throws Exception {
         Sitemap sitemap = crawlService.crawlTheWebUrl("http://wiprodigital.com");
         assertNotNull(sitemap);
 
         assertTrue(isNotEmpty(sitemap.getUrl()));
-        assertTrue(sitemap.getUrl().size() > 100);
+        assertTrue(sitemap.getUrl().size() > 10);
 
         assertTrue(isNotEmpty(sitemap.getImages()));
-        assertTrue(sitemap.getImages().size() > 100);
+        assertTrue(sitemap.getImages().size() > 10);
 
         assertTrue(isNotEmpty(sitemap.getStaticContents()));
-        assertTrue(sitemap.getStaticContents().size() > 100);
+        assertTrue(sitemap.getStaticContents().size() > 10);
 
         assertTrue(isNotEmpty(sitemap.getExternalReferences()));
-        assertTrue(sitemap.getExternalReferences().size() > 100);
+        assertTrue(sitemap.getExternalReferences().size() > 10);
 
 
     }
 
+    /**
+     * Test the crawltest web mid page url.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testTheCrawltestWebMidPageUrl() throws Exception {
         Sitemap sitemap = crawlService.crawlTheWebUrl("http://wiprodigital.com/blog/");
@@ -123,6 +134,11 @@ public class CrawlServiceIT {
     }
 
 
+    /**
+     * Test the crawltest bad cases.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testTheCrawltestBadCases() throws Exception {
         Sitemap sitemap = crawlService.crawlTheWebUrl(null);

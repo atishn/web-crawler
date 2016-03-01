@@ -9,9 +9,28 @@ import java.util.List;
 
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
+/**
+ * The type Sitemap builder.
+ */
 public final class SitemapBuilder {
+    /**
+     * Instantiates a new Sitemap builder.
+     */
+    private SitemapBuilder() {
+    }
 
-    public static Sitemap build(Collection<String> urls, Collection<String> images, Collection<String> staticContents, Collection<String> externalRef) {
+    /**
+     * Build sitemap.
+     *
+     * @param urls           the urls
+     * @param images         the images
+     * @param staticContents the static contents
+     * @param externalRef    the external ref
+     *
+     * @return the sitemap
+     */
+    public static Sitemap build(final Collection<String> urls, final Collection<String> images,
+                                final Collection<String> staticContents, final Collection<String> externalRef) {
         Sitemap sitemap = null;
 
         if (isNotEmpty(urls)) {

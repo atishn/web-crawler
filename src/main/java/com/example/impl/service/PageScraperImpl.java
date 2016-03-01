@@ -40,14 +40,28 @@ public class PageScraperImpl implements PageScraper {
      */
     private static final Logger LOG = getLogger(PageScraperImpl.class);
 
+    /**
+     * The Connection manager.
+     */
     @Autowired
     private ConnectionManager connectionManager;
 
+    /**
+     * Gets page details.
+     *
+     * @param url the url
+     * @return the page details
+     * @throws UrlConnectionException the url connection exception
+     * @throws UrlConnectionException the url connection exception
+     */
     @Override
-    public PageModel getPageDetails(String rootUrl) throws UrlConnectionException, IOException {
+    public PageModel getPageDetails(final String url) throws UrlConnectionException, IOException {
 
         PageModel pageModel = null;
-        if (isNoneEmpty(rootUrl)) {
+        if (isNoneEmpty(url)) {
+
+            String rootUrl = url;
+
             InputStream response = null;
             try {
                 URI rootUri = new URI(rootUrl);
@@ -55,6 +69,7 @@ public class PageScraperImpl implements PageScraper {
                 if (isEmpty(rootUri.getScheme())) {
                     rootUrl = "http://" + rootUrl;
                 }
+                LOG.debug("Visiting the page " + rootUrl);
                 response = connectionManager.getResponseStream(rootUrl);
 
                 Document doc = Jsoup.parse(response, null, rootUrl);

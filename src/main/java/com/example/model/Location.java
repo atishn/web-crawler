@@ -18,6 +18,9 @@ public class Location implements Serializable {
      */
     private static final long serialVersionUID = -7846773639244185780L;
 
+    /**
+     * The Loc.
+     */
     private String loc;
 
 }

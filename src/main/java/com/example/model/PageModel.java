@@ -17,14 +17,29 @@ public class PageModel implements Serializable {
      */
     private static final long serialVersionUID = -7846773639244185780L;
 
+    /**
+     * The Title.
+     */
     private String title;
 
+    /**
+     * The Url.
+     */
     private String url;
 
+    /**
+     * The References.
+     */
     private Set<String> references;
 
+    /**
+     * The Images.
+     */
     private Set<String> images;
 
+    /**
+     * The Static contents.
+     */
     private Set<String> staticContents;
 
     /**

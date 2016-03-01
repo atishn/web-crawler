@@ -19,10 +19,11 @@ import static org.junit.Assert.assertNull;
 @WebAppConfiguration
 @ActiveProfiles("integration")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class SitemapAdapterIT {
+public class SitemapAdapterTest {
 
     /**
      * Test Sitemap Crawling.
+     * @throws Exception the exception
      */
     @Test
     public void testSiteMapAdapterWithNullCheck() throws Exception {

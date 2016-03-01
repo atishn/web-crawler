@@ -9,7 +9,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,30 +60,13 @@ public class CrawlController {
      * @param url the url
      *
      * @return Response Message
-     */
-    @RequestMapping(value = URL_BY_ID, method = RequestMethod.GET, produces = {JSON, XML})
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Crawl the web by the domain", notes = "Get the Sitemap for the domain")
-    final ServiceResponse<Sitemap, String> getSiteMap(
-            @ApiParam(value = "The web url for crawling")
-            @PathVariable final String url) throws Exception {
-        Sitemap sitemap = crawlService.crawlTheWebUrl(url);
-        return new ServiceResponse<>(sitemap, null);
-    }
-
-
-    /**
-     * Get a SiteMap by Url.
      *
-     * @param url the url
-     *
-     * @return Response Message
+     * @throws Exception the exception
      */
     @RequestMapping(method = RequestMethod.POST, produces = {JSON})
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Crawl the web by the domain", notes = "Get the Sitemap for the domain")
+    @ApiOperation(value = "Crawl the web by the domain", notes = "Get the Sitemap")
     final ServiceResponse<Sitemap, String> postSiteMap(
             @ApiParam(value = "The web url for crawling")
             @RequestBody final UrlRequest url) throws Exception {

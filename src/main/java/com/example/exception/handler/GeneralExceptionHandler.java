@@ -17,6 +17,9 @@ import static java.lang.String.valueOf;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
+/**
+ * The type General exception handler.
+ */
 @ControllerAdvice
 public class GeneralExceptionHandler {
     /**
@@ -25,9 +28,18 @@ public class GeneralExceptionHandler {
     private static final Logger LOG = getLogger(GeneralExceptionHandler.class);
 
 
+    /**
+     * Handle crawler exception.
+     *
+     * @param ex   the ex
+     * @param req  the req
+     * @param resp the resp
+     *
+     * @return the service response
+     */
     @ExceptionHandler(CrawlerException.class)
     @ResponseBody
-    ServiceResponse<String,  ErrorResponse> handleCrawlerException(
+    ServiceResponse<String, ErrorResponse> handleCrawlerException(
             final CrawlerException ex,
             final HttpServletRequest req,
             final HttpServletResponse resp) {
@@ -43,10 +55,18 @@ public class GeneralExceptionHandler {
     }
 
 
-
+    /**
+     * Handle general exception.
+     *
+     * @param ex   the ex
+     * @param req  the req
+     * @param resp the resp
+     *
+     * @return the service response
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    ServiceResponse<String,  ErrorResponse> handleGeneralException(
+    ServiceResponse<String, ErrorResponse> handleGeneralException(
             final Exception ex, final HttpServletRequest req,
             final HttpServletResponse resp) {
 
@@ -57,13 +77,22 @@ public class GeneralExceptionHandler {
         error.setLink(req.getRequestURL().toString());
         error.setDetail(ex.getMessage());
 
-        return new ServiceResponse(null,  error);
+        return new ServiceResponse(null, error);
     }
 
 
+    /**
+     * Handle invalid argument exception.
+     *
+     * @param ex   the ex
+     * @param req  the req
+     * @param resp the resp
+     *
+     * @return the service response
+     */
     @ExceptionHandler(UrlConnectionException.class)
     @ResponseBody
-    ServiceResponse<String,  ErrorResponse> handleInvalidArgumentException(
+    ServiceResponse<String, ErrorResponse> handleInvalidArgumentException(
             final UrlConnectionException ex, final HttpServletRequest req,
             final HttpServletResponse resp) {
 

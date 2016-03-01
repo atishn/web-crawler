@@ -17,8 +17,14 @@ public class Sitemap implements Serializable {
      */
     private static final long serialVersionUID = -7846773639244185780L;
 
+    /**
+     * The Url.
+     */
     private List<Location> url;
 
+    /**
+     * The Images.
+     */
     private List<Location> images;
 
     /**

@@ -25,21 +25,38 @@ public class ConnectionManagerImpl implements ConnectionManager {
      */
     private static final Logger LOG = getLogger(ConnectionManagerImpl.class);
 
-    PoolingHttpClientConnectionManager cm;
 
-    CloseableHttpClient httpClient;
+    /**
+     * The Http client.
+     */
+    private CloseableHttpClient httpClient;
 
+    /**
+     * Gets response stream.
+     *
+     * @param url the url
+     *
+     * @return the response stream
+     *
+     * @throws IOException the iO exception
+     */
     @Override
-    public InputStream getResponseStream(String url) throws IOException {
+    public InputStream getResponseStream(final String url) throws IOException {
 
         HttpResponse response = getHttpClient().execute(new HttpGet(url));
         InputStream in = response.getEntity().getContent();
         return in;
     }
 
-    private CloseableHttpClient getHttpClient(){
-        if(httpClient == null){
-            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+    /**
+     * Get http client.
+     *
+     * @return the closeable http client
+     */
+    private CloseableHttpClient getHttpClient() {
+        if (httpClient == null) {
+            PoolingHttpClientConnectionManager cm =
+                    new PoolingHttpClientConnectionManager();
             cm.setDefaultMaxPerRoute(10);
             cm.setMaxTotal(10);
             httpClient = HttpClients.custom().setConnectionManager(cm)
