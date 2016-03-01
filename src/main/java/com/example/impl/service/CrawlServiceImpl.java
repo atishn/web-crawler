@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.example.adapter.SitemapAdapter.adapt;
@@ -37,7 +38,7 @@ public class CrawlServiceImpl implements CrawlService {
 
 
     @Override
-    public List<Sitemap> crawlTheWebUrl(String url) throws InterruptedException{
+    public List<Sitemap> crawlTheWebUrl(String url) throws IOException{
 
         List<Sitemap> sitemaps = newArrayList();
         crawlerDao.appendToQueue(url);
@@ -54,7 +55,6 @@ public class CrawlServiceImpl implements CrawlService {
                 LOG.error("The given url cannot be fetched " + urlToVisit);
             }
             crawlerDao.markAsVisited(urlToVisit);
-            Thread.sleep(100);
         }
         return sitemaps;
     }

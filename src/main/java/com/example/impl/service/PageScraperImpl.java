@@ -1,5 +1,6 @@
 package com.example.impl.service;
 
+import com.example.api.service.ConnectionManager;
 import com.example.api.service.PageScraper;
 import com.example.exception.UrlConnectionException;
 import com.example.model.PageModel;
@@ -9,9 +10,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URI;
@@ -37,21 +40,26 @@ public class PageScraperImpl implements PageScraper {
      */
     private static final Logger LOG = getLogger(PageScraperImpl.class);
 
+    @Autowired
+    private ConnectionManager connectionManager;
+
     @Override
-    public PageModel getPageDetails(String rootUrl) throws UrlConnectionException {
+    public PageModel getPageDetails(String rootUrl) throws UrlConnectionException, IOException {
 
         PageModel pageModel = null;
         if (isNoneEmpty(rootUrl)) {
-
+            InputStream response = null;
             try {
                 URI rootUri = new URI(rootUrl);
 
-                if(isEmpty(rootUri.getScheme())){
+                if (isEmpty(rootUri.getScheme())) {
                     rootUrl = "http://" + rootUrl;
                 }
+                response = connectionManager.getResponseStream(rootUrl);
 
-                Document doc = Jsoup.connect(rootUrl).userAgent("Mozilla").timeout(10000).get();
-                if(doc.hasText()){
+                Document doc = Jsoup.parse(response, null, rootUrl);
+
+                if (doc.hasText()) {
                     pageModel = new PageModel();
                     pageModel.setTitle(doc.title());
                     pageModel.setUrl(doc.location());
@@ -107,6 +115,10 @@ public class PageScraperImpl implements PageScraper {
             } catch (IOException ex) {
                 LOG.error("Unexpected exception occured during the fetch of " + rootUrl);
                 throw new UrlConnectionException(ex.getMessage());
+            } finally {
+                if (response != null) {
+                    response.close();
+                }
             }
         }
         return pageModel;
