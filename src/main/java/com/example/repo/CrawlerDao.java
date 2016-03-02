@@ -9,6 +9,7 @@ import static com.google.common.collect.Queues.newArrayDeque;
 
 /**
  * The type Crawler dao.
+ * It should support DB.
  */
 public class CrawlerDao {
 
