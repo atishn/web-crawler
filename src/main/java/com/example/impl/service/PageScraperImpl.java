@@ -69,7 +69,7 @@ public class PageScraperImpl implements PageScraper {
                 if (isEmpty(rootUri.getScheme())) {
                     rootUrl = "http://" + rootUrl;
                 }
-                LOG.debug("Visiting the page " + rootUrl);
+                LOG.info("Visiting the page " + rootUrl);
                 response = connectionManager.getResponseStream(rootUrl);
 
                 Document doc = Jsoup.parse(response, null, rootUrl);
