@@ -22,6 +22,7 @@ This application crawls the given domain recursively and generate the sitemap wi
 ## Limitations:
 1. This is single threaded application. It takes decent amount of time to crawl mid to high content websites.
 2. Application crawls the website fairly. But it doesn't deal with the edge case of excessive scraping access denied.
+3. It doesn't work as intended with malformed or bad urls.
 
 ## Future Improvements.
  1. Introduce WorkerTasks and ExecutorThread framework for better performance.
