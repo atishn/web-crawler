@@ -26,11 +26,12 @@ This application crawls the given domain recursively and generate the sitemap wi
 
 ## Future Improvements.
  1. Introduce WorkerTasks and ExecutorThread framework for better performance.
- 2. Introduce Unit Tests.
- 3. Introduce the persistance using DB.
- 4. Work on edge cases.
- 5. Introduce code coverage tool like Jacoco to maintain code coverage.
- 6. Add Jmeter profile to src/test/jmeter.
+ 2. Support Sitemap compliant XML format.
+ 3. Introduce Unit Tests.
+ 4. Introduce the persistance using DB.
+ 5. Work on edge cases.
+ 6. Introduce code coverage tool like Jacoco to maintain code coverage.
+ 7. Add Jmeter profile to src/test/jmeter.
 
 
 ## Supported Endpoint
